@@ -4,6 +4,7 @@ import db from "../models/index";
 
 const salt = bcrypt.genSaltSync(10);
 
+//tạo mới người dùng
 let createNewUser = async (data) => { // createNewUser nhận data từ client và thao tác lên server
     return new Promise(async (resolve, reject) => {
         try{
@@ -28,6 +29,7 @@ let createNewUser = async (data) => { // createNewUser nhận data từ client v
 
 }
 
+//mã hóa paswords
 let hashUserPassword = (password) => {
     return new Promise(async (resolve, reject) => {
         try{
@@ -55,7 +57,58 @@ let getAllUser = () => {
     })
 }
 
+//render thông tin người dùng để edit 
+let getUserInfoById = (userId) =>{
+    return new Promise( async (resolve, reject) => {
+        try{
+            let user = await db.User.findOne({
+                where : {id: userId }, 
+                raw: true
+            })
+            if(user){
+                resolve(user);
+            }
+            else{
+                resolve({});
+
+            }
+        }catch(err){
+            reject(err)
+        }
+    })
+}
+
+//update
+let updateUserData = async (data) => {
+return new Promise( async (resolve, reject) => {
+    try {
+        let user = await db.User.findOne({
+            where : {id: data.id},
+        });
+        if(user){
+            user.firstName = data.firstName
+            user.lastName = data.lastName
+            user.address = data.address
+
+            await user.save()
+
+            let allUsers = await db.User.findAll()
+            resolve(allUsers);
+        }else{
+            resolve()
+        }
+        await db.User.update({
+
+        })
+
+    }catch(err){
+        reject(err)
+    }
+})
+}
 module.exports = {
     createNewUser,
     getAllUser,
+    getUserInfoById,
+    updateUserData,
 };
