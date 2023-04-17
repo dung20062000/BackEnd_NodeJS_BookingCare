@@ -29,9 +29,8 @@ let postCRUD = async (req, res) => {
 //hien thi nguoi dung
 let displayGetCRUD = async (req, res) => {
     let data = await CRUDService.getAllUser();
-    console.log("......................");
-    console.log(data);
-    console.log("......................");
+    // console.log(data);
+
     return res.render("displayCRUD.ejs", { dataTable: data });
 };
 let getEditCRUD = async (req, res) => {
