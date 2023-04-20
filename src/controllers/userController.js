@@ -24,7 +24,7 @@ let handleLogin = async (req, res) => {
 }
 
 let handleGetAllUser = async(req, res) => {
-    let id = req.body.id; // lấy lấy tất info user thông qua ID
+    let id = req.query.id; // lấy lấy tất info user thông qua ID
 
     if(!id) {
         return res.status(200).json({
@@ -33,12 +33,12 @@ let handleGetAllUser = async(req, res) => {
             user: []
         })
     }
-    let user = await userService.getAllUsers(id)
+    let users = await userService.getAllUsers(id)
 
     return res.status(200).json({
         errCode: 0,
         message:'ok',
-        user
+        users
 
     })
 }
