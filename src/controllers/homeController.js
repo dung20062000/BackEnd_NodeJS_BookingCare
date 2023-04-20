@@ -48,7 +48,7 @@ let getEditCRUD = async (req, res) => {
     }
 };
 
-//upsate người dùng mới
+//update người dùng mới
 let putCRUD = async (req, res) => {
     let data = req.body;
     let allUser = await CRUDService.updateUserData(data);
