@@ -3,33 +3,40 @@ import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from "./route/web";
 import connectDB from "./config/connectDB"
-// import cors from "cors"
+import cors from "cors"   //sử dụng trên version 14
 
-require('dotenv').config(); // dòng này để giúp chạy được dòng 17
-
+require('dotenv').config(); 
 let app = express();
 
-// app.use(cors({origin: true}))
+app.use(cors({origin: true}))    //sử dụng trên version 14
 
+//FIX CORS error on version 14
+// app.use(cors({ credentials:true, origin: process.env.URL_REACT }))
+
+
+
+
+//FIX CORS error on version 16
 // Add headers before the routes are defined
-app.use(function (req, res, next) {
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', process.env.URL_REACT);
+// app.use(function (req, res, next) {
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', process.env.URL_REACT);
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
+//     // Request headers you wish to allow
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    // Pass to next layer of middleware
-    next();
-});
+//     // Set to true if you need the website to include cookies in the requests sent
+//     // to the API (e.g. in case you use sessions)
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+
+//     // Pass to next layer of middleware
+//     next();
+// });
 
 
 
