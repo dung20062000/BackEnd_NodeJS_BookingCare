@@ -23,7 +23,7 @@ let handleUserLogin = (email, password) => {
             // nếu đúng email
             if (isExist) {
                 let user = await db.User.findOne({
-                    attributes: ["email", "roleId", "password"],
+                    attributes: ["email", "roleId", "password", 'firstName', 'lastName'],
                     where: { email: email },
                     raw: true,
                 });
@@ -127,8 +127,9 @@ let createNewUser = (data) => {
                 lastName: data.lastName,
                 address: data.address,
                 phoneNumber: data.phonenumber,
-                gender: data.gender === "1" ? true : false,
+                gender: data.gender,
                 roleId: data.roleId,
+                positionId: data.positionId
             });
             resolve({
                 errCode: 0,
