@@ -41,8 +41,11 @@ app.use(cors({origin: true}))    //sử dụng trên version 14
 
 
 //config app
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(bodyParser.json({limit:'50mb'}));
+app.use(bodyParser.urlencoded({ limit:'50mb', extended: true }));
 
 viewEngine(app);
 initWebRoutes(app);
