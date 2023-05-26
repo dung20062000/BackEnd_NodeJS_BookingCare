@@ -91,7 +91,7 @@ let getDetailDoctorByIDService = (inputId) => {
                         id: inputId
                     },
                     attributes: {
-                        exclude: ["password", "image"] //loại bỏ password ra khỏi obj trả về
+                        exclude: ["password"] //loại bỏ password ra khỏi obj trả về
                     },
                     include: [
                         {model: db.Markdown, attributes: ['description', 'contentHTML', 'contentMarkdown']},
@@ -99,9 +99,14 @@ let getDetailDoctorByIDService = (inputId) => {
 
                        
                     ],
-                    raw: true,
+                    raw: false,
                     nest: true //gom nhóm các obj khi trả về trong data
                 });
+                if(doctorData && doctorData.image){
+                    doctorData.image = new Buffer(doctorData.image, 'base64').toString('binary')
+
+                }
+                if(!doctorData) doctorData = {};
                 resolve({
                     errCode: 0,
                     data: doctorData
