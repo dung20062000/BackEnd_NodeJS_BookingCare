@@ -1,4 +1,7 @@
 import db from "../models/index";
+import _ from "lodash"
+require('dotenv').config()
+const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE
 
 //lấy thông tin bác sĩ nổi bật 
 let getTopDoctorHome = (limitInput) => {
@@ -132,9 +135,64 @@ let getDetailDoctorByIDService = (inputId) => {
         }
     });
 }
+
+let bulkCreateScheduleService = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try{
+
+            if(!data.arrSchedule || !data.doctorId || !data.formatDate){
+                resolve({
+                    errCode: 1,
+                    errMessage: "missing required param schedule"
+                })
+            }else{
+                let schedule = data.arrSchedule
+                if(schedule && schedule.length > 0){
+                    schedule = schedule.map(item =>{
+                        item.maxNumber = MAX_NUMBER_SCHEDULE
+                        return item
+                    })
+
+                }
+                //get all existing data => ___1___
+                let existing = await db.Schedule.findAll({
+                    where:{ doctorId : data.doctorId , date: data.formatDate },
+                    attributes: ['timeType','date', 'doctorId', 'maxNumber'],
+                    raw: true,
+                })
+                //convert date  => ___2___
+                if(existing && existing.length > 0){
+                    existing = existing.map(item => {
+                        item.date = new Date(item.date).getTime()
+                        return item;
+                    })
+                }
+
+                //compare difference => ___3___
+                let toCreate = _.differenceWith(schedule, existing, (a, b) => {
+                    return a.timeType === b.timeType && a.date === b.date
+                })
+                
+                //create data => ___4___
+                if(toCreate && toCreate.length > 0){
+                    await db.Schedule.bulkCreate(toCreate)
+                }
+
+                resolve({
+                    errCode: 0,
+                    errMessage: "Save schedule success"
+                })
+            }
+
+        }catch(err){
+            reject(err);
+        }
+    })
+}
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
     saveDetailInfoDoctor: saveDetailInfoDoctor,
-    getDetailDoctorByIDService: getDetailDoctorByIDService
+    getDetailDoctorByIDService: getDetailDoctorByIDService,
+    bulkCreateScheduleService: bulkCreateScheduleService
 };
