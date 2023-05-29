@@ -160,20 +160,13 @@ let bulkCreateScheduleService = (data) => {
                     attributes: ['timeType','date', 'doctorId', 'maxNumber'],
                     raw: true,
                 })
-                //convert date  => ___2___
-                if(existing && existing.length > 0){
-                    existing = existing.map(item => {
-                        item.date = new Date(item.date).getTime()
-                        return item;
-                    })
-                }
 
-                //compare difference => ___3___
+                //compare difference => ___2___
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
-                    return a.timeType === b.timeType && a.date === b.date
+                    return a.timeType === b.timeType && +a.date === +b.date
                 })
                 
-                //create data => ___4___
+                //create data => ___3___
                 if(toCreate && toCreate.length > 0){
                     await db.Schedule.bulkCreate(toCreate)
                 }
@@ -202,7 +195,12 @@ let getScheduleByDateService = (doctorId, date) =>{
                         where:{ 
                             doctorId : doctorId,
                             date: date
-                        }
+                        },
+                        include: [
+                            {model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi']},
+                        ],
+                        raw: false,
+                        nest: true //gom nhóm các obj khi trả về trong data
                     })
                     if(!dataSchedule) dataSchedule = []
                     resolve({
