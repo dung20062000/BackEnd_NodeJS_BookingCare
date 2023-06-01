@@ -268,11 +268,47 @@ let getScheduleByDateService = (doctorId, date) =>{
             }
         })
 }
+let handleGetExtraInfoDoctorByIdService = (idInput) => {
+    return new Promise(async(resolve, reject) => {
+        try{
+            if(!idInput){
+                resolve({
+                    errCode: 1,
+                    errMessage: "missing required parameter"
+                })
+            }else{
+                let data = await db.Doctor_Info.findOne({
+                    where: {
+                        doctorId: idInput
+                    },
+                    attributes: {
+                        exclude: ["password",'id', 'doctorId'] //loại bỏ password ra khỏi obj trả về
+                    },
+                    include: [
+                        {model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi']},
+                        {model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi']},
+                        {model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi']},
+                    ],
+                    raw: false,
+                    nest: true //gom nhóm các obj khi trả về trong
+                })
+                if(!data) data = {}
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        }catch(err){
+            reject(err);    
+        }
+    })
+}
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
     saveDetailInfoDoctor: saveDetailInfoDoctor,
     getDetailDoctorByIDService: getDetailDoctorByIDService,
     bulkCreateScheduleService: bulkCreateScheduleService,
-    getScheduleByDateService: getScheduleByDateService
+    getScheduleByDateService: getScheduleByDateService,
+    handleGetExtraInfoDoctorByIdService: handleGetExtraInfoDoctorByIdService
 };

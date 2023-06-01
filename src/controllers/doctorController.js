@@ -81,12 +81,26 @@ let handleGetScheduleByDate = async (req, res) => {
         })
     }
 }
+
+let handleGetExtraInfoDoctorById = async (req, res) => {
+    try{
+        let info = await doctorService.handleGetExtraInfoDoctorByIdService(req.query.doctorId)
+        return res.status(200).json(info) 
+    }catch(err){
+        console.log(err)
+        return res.status(200).json({
+            errCode: -1,
+            message: 'err from server'
+        })
+    }
+}
 module.exports = {
     handleGetTopDoctorHome: handleGetTopDoctorHome,
     handleGetAllDoctors: handleGetAllDoctors,
     handleSaveInfoDoctors: handleSaveInfoDoctors,
     handleGetDetailDoctorByID: handleGetDetailDoctorByID,
     handleBulkCreateSchedule: handleBulkCreateSchedule,
-    handleGetScheduleByDate: handleGetScheduleByDate
+    handleGetScheduleByDate: handleGetScheduleByDate,
+    handleGetExtraInfoDoctorById: handleGetExtraInfoDoctorById
 
 }
