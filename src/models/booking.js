@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     statusId: DataTypes.STRING, //là kiểu dữ liệu của key trong bảng allcode
     doctorId: DataTypes.INTEGER, //là kiểu dữ liệu của id trong bảng user(doctors)
     patientId: DataTypes.INTEGER, //là kiểu dữ liệu của id trong bảng user(patient)
-    date: DataTypes.DATE,
+    date: DataTypes.STRING,
     timeType: DataTypes.STRING,
 
   }, {

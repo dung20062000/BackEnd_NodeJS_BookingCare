@@ -353,7 +353,7 @@ let handleGetGetProFileDoctorByIdService = (idInput) => {
                 })
             }
         }catch(err){
-            reject(err);    
+            reject(err);
         }
     })
 }
