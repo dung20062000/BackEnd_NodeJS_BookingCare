@@ -1,4 +1,5 @@
 import db from "../models/index";
+import emailService from "./emailServices";
 require('dotenv').config()
 
 let postBookingAppointmentService = (data) => {
@@ -7,9 +8,18 @@ let postBookingAppointmentService = (data) => {
             if(!data.email || !data.doctorId || !data.timeType || !data.date){
                 resolve({
                     errCode: 1,
-                    errMessage: "missing parameter email"
+                    errMessage: "missing parameter"
                 })
             }else{
+
+                await emailService.sendSimpleEmail({
+                    receiversEmail: data.email,
+                    patientName: 'bui tien dũng',
+                    time: '8.00 - 9:00 chu nhat ngay 1/8',
+                    doctorName: 'emily',
+                    redirectLink: 'https://www.npmjs.com/package/nodemailer'
+                })
+
                 //upsert patient
                 let user = await db.User.findOrCreate({
                     where: {
