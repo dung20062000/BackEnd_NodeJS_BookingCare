@@ -5,18 +5,24 @@ require('dotenv').config()
 let postBookingAppointmentService = (data) => {
     return new Promise(async(resolve, reject) => {
         try{
-            if(!data.email || !data.doctorId || !data.timeType || !data.date){
+            if(!data.email 
+                || !data.doctorId 
+                || !data.timeType 
+                || !data.date 
+                || !data.fullName
+                
+                ){
                 resolve({
                     errCode: 1,
                     errMessage: "missing parameter"
                 })
             }else{
-
                 await emailService.sendSimpleEmail({
                     receiversEmail: data.email,
-                    patientName: 'bui tien dũng',
-                    time: '8.00 - 9:00 chu nhat ngay 1/8',
-                    doctorName: 'emily',
+                    patientName: data.fullName,
+                    time: data.timeString,
+                    doctorName: data.doctorName,
+                    language: data.language,
                     redirectLink: 'https://www.npmjs.com/package/nodemailer'
                 })
 
@@ -30,7 +36,7 @@ let postBookingAppointmentService = (data) => {
                         roleId: 'R3'
                     },
                 })
-                console.log('cheecj user created ', user[0])
+                // console.log('cheecj user created ', user[0])
                 if(user && user[0]){
                     await db.Booking.findOrCreate({
                         where: {

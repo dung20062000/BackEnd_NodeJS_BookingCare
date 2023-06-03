@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     patientId: DataTypes.INTEGER, //là kiểu dữ liệu của id trong bảng user(patient)
     date: DataTypes.STRING,
     timeType: DataTypes.STRING,
+    token: DataTypes.STRING,
 
   }, {
     sequelize,

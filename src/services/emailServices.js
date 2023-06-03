@@ -19,7 +19,15 @@ let sendSimpleEmail = async(dataSend) => {
     from: '"Bui Tien Dung 👻" <dungdevnd@gmail.com>', // sender address
     to: dataSend.receiversEmail, // list of receivers
     subject: "Thông tin đặt lịch khám bệnh ✔", // Subject line
-    html: `
+    html: getBodyHTMLEmail(dataSend),
+  });
+}
+
+let getBodyHTMLEmail = (dataSend) => {
+  let result = ''
+  if(dataSend.language === 'vi'){
+    result = 
+    `
     <h3>Xin Chào ${dataSend.patientName}</h3>
     <p>Bạn nhận được email này vì đặt lịch khám bệnh trên BOOKINGCARE with BÙI TIẾN DŨNG</p>
     <p>Thông tin đặt lịch khám bệnh:</p>
@@ -27,24 +35,35 @@ let sendSimpleEmail = async(dataSend) => {
     <div><b>bác Sĩ: ${dataSend.doctorName}</b></div>
 
 
-    <p>Để xác nhận các thông tin trên, bạn hãy ấn vào l;ink dưới để hoàn tất </p>
+    <p>Để xác nhận các thông tin trên, bạn hãy ấn vào link dưới để hoàn tất </p>
     <div>
       <a href=${dataSend.redirectLink}>Click Here</a>
     </div>
 
     <div>Xin chân thành cảm ơn !</div>
-    `, // html body
-  });
-}
+    `
+  }
+  if(dataSend.language === 'en'){
+    result = 
+    `
+    <h3>Dear: ${dataSend.patientName}</h3>
+    <p>You received this email because you booked a medical appointment on BOOKINGCARE with BUI TIEN DUNG</p>
+    <p>Information to schedule an appointment:</p>
+    <div><b>Time: ${dataSend.time}</b></div>
+    <div><b>Doctor: ${dataSend.doctorName}</b></div>
 
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
+    <p>To confirm the above information, please click on the link below to complete </p>
+    <div>
+      <a href=${dataSend.redirectLink}>Click Here</a>
+    </div>
 
-  
-
+    <div>Sincerely thank !</div>
+    `
+  }
+  return result
 }
 
 module.exports = {
-    sendSimpleEmail
+  sendSimpleEmail,
 };
