@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.Doctor_Info, {foreignKey: "doctorId"})
 
       User.hasMany(models.Schedule, {foreignKey: "id", targetKey: 'doctorId' , as: "doctorData"})
+      User.hasMany(models.Booking, {foreignKey: "id", targetKey: 'patientId' , as: "patientData"})
 
     }
   }
@@ -28,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
     gender: DataTypes.STRING,
-    image: DataTypes.STRING,
+    image: DataTypes.STRING, 
     roleId: DataTypes.STRING,
     positionId: DataTypes.STRING,
 

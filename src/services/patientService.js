@@ -18,6 +18,8 @@ let postBookingAppointmentService = (data) => {
                 || !data.timeType 
                 || !data.date 
                 || !data.fullName
+                || !data.selectedGender
+                || !data.address
                 
                 ){
                 resolve({
@@ -42,7 +44,10 @@ let postBookingAppointmentService = (data) => {
                     },
                     defaults: {
                         email: data.email,
-                        roleId: 'R3'
+                        roleId: 'R3',
+                        address: data.address,
+                        gender: data.selectedGender,
+                        firstName: data.fullName
                     },
                 })
                 // console.log('cheecj user created ', user[0])

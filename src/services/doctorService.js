@@ -383,6 +383,46 @@ let handleGetGetProFileDoctorByIdService = (idInput) => {
         }
     })
 }
+
+
+let handleGetListPatientForDoctorService = (doctorId, date) => {
+    return new Promise(async(resolve, reject) => {
+        try{
+            if(!doctorId || !date){
+                resolve({
+                    errCode: 1,
+                    errMessage: "missing required parameter"
+                })
+            }else{
+                let data = await db.Booking.findAll({
+                    where:{
+                        statusId: "S2",
+                        doctorId: doctorId,
+                        date: date
+                    },
+                    include: [
+                    {
+                        model: db.User, as: 'patientData',attributes: ['email', 'firstName', 'address', 'gender'],
+                        include:[
+                            {model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']}
+                        ]
+                    },
+                        
+                    ],
+                    raw: false, //tra ve dang obj
+                    nest: true //gom nhóm các obj khi trả về trong(obj trong obj )
+                })
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+
+        }catch(err){
+            reject(err);
+        }
+    })
+}
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -391,5 +431,6 @@ module.exports = {
     bulkCreateScheduleService: bulkCreateScheduleService,
     getScheduleByDateService: getScheduleByDateService,
     handleGetExtraInfoDoctorByIdService: handleGetExtraInfoDoctorByIdService,
-    handleGetGetProFileDoctorByIdService: handleGetGetProFileDoctorByIdService
+    handleGetGetProFileDoctorByIdService: handleGetGetProFileDoctorByIdService,
+    handleGetListPatientForDoctorService: handleGetListPatientForDoctorService
 };
