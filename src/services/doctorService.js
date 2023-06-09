@@ -407,6 +407,9 @@ let handleGetListPatientForDoctorService = (doctorId, date) => {
                             {model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']}
                         ]
                     },
+                    {
+                        model: db.Allcode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi']
+                    }
                         
                     ],
                     raw: false, //tra ve dang obj
