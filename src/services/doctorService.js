@@ -1,5 +1,6 @@
 import db from "../models/index";
 import _ from "lodash"
+import emailService from "../services/emailServices"
 require('dotenv').config()
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE
 
@@ -426,6 +427,42 @@ let handleGetListPatientForDoctorService = (doctorId, date) => {
         }
     })
 }
+let handleSendRemedyService = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try{
+            if(!data.email || !data.doctorId || !data.patientId || !data.timeType){
+                resolve({
+                    errCode: 1,
+                    errMessage: "missing required parameter"
+                })
+            }else{
+                //update patient status
+                let appointment = await db.Booking.findOne({
+                    where: {
+                        doctorId: data.doctorId,
+                        patientId : data.patientId,
+                        timeType: data.timeType,
+                        statusId: 'S2'
+                    },
+                    raw : false,
+                })
+                if(appointment){
+                    appointment.statusId = 'S3',
+                    await appointment.save()
+                }
+                //send email remedy
+                await emailService.sendAttachment(data)
+                resolve({
+                    errCode: 0,
+                    errMessage: 'ok'
+                })
+            }
+
+        }catch(err){
+            reject(err);
+        }
+    })
+}
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -435,5 +472,6 @@ module.exports = {
     getScheduleByDateService: getScheduleByDateService,
     handleGetExtraInfoDoctorByIdService: handleGetExtraInfoDoctorByIdService,
     handleGetGetProFileDoctorByIdService: handleGetGetProFileDoctorByIdService,
-    handleGetListPatientForDoctorService: handleGetListPatientForDoctorService
+    handleGetListPatientForDoctorService: handleGetListPatientForDoctorService,
+    handleSendRemedyService: handleSendRemedyService
 };
