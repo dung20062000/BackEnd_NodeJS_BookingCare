@@ -1,12 +1,12 @@
 import db from "../models/index";
-import _ from "lodash"
-require('dotenv').config()
+import _ from "lodash";
+require("dotenv").config();
 
 let createClinicService = (data) => {
-    return new Promise (async(resolve, reject) => {
-        try{
+    return new Promise(async (resolve, reject) => {
+        try {
             if (
-                !data.name || 
+                !data.name ||
                 !data.address ||
                 !data.imageBase64 ||
                 !data.descriptionHTML ||
@@ -29,19 +29,19 @@ let createClinicService = (data) => {
                     errMessage: "create Clinic success",
                 });
             }
-        }catch(err){
-            reject(err)
+        } catch (err) {
+            reject(err);
         }
-    })
-}
+    });
+};
 
 let handleGetAllClinicService = () => {
-    return new Promise (async(resolve, reject) => {
-        try{
+    return new Promise(async (resolve, reject) => {
+        try {
             let data = await db.Clinic.findAll();
             if (data && data.length > 0) {
                 data.map((item) => {
-                    item.image = new Buffer(item.image, "base64").toString(
+                    item.image = Buffer.from(item.image, "base64").toString(
                         "binary"
                     );
                     return item;
@@ -53,16 +53,15 @@ let handleGetAllClinicService = () => {
                 errMessage: "ok",
                 data,
             });
-        }catch(err){
-            reject(err)
+        } catch (err) {
+            reject(err);
         }
-    })
-}
-
+    });
+};
 
 let handleGetDetailClinicByIdService = (inputId) => {
-    return new Promise (async(resolve, reject) => {
-        try{
+    return new Promise(async (resolve, reject) => {
+        try {
             if (!inputId) {
                 resolve({
                     errCode: 1,
@@ -73,18 +72,23 @@ let handleGetDetailClinicByIdService = (inputId) => {
                     where: {
                         id: inputId,
                     },
-                    attributes: ["name","address","descriptionMarkdown", "descriptionHTML"],
+                    attributes: [
+                        "name",
+                        "address",
+                        "descriptionMarkdown",
+                        "descriptionHTML",
+                    ],
                 });
 
                 if (data) {
-                    let doctorClinic = []
+                    let doctorClinic = [];
 
-                    doctorClinic = await db.Doctor_Info.findAll({
-                            where: {
-                                clinicId: inputId,
-                            },
-                            attributes: ["doctorId", "provinceId"],
-                        });
+                    doctorClinic = await db.Doctor_Infor.findAll({
+                        where: {
+                            clinicId: inputId,
+                        },
+                        attributes: ["doctorId", "provinceId"],
+                    });
                     data.doctorClinic = doctorClinic;
                 } else data = {};
                 resolve({
@@ -93,14 +97,14 @@ let handleGetDetailClinicByIdService = (inputId) => {
                     data,
                 });
             }
-        }catch(err){
-            reject(err)
+        } catch (err) {
+            reject(err);
         }
-    })
-}
+    });
+};
 
-module.exports ={
+module.exports = {
     createClinicService: createClinicService,
     handleGetAllClinicService: handleGetAllClinicService,
-    handleGetDetailClinicByIdService: handleGetDetailClinicByIdService
-}
+    handleGetDetailClinicByIdService: handleGetDetailClinicByIdService,
+};

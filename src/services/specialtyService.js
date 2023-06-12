@@ -38,7 +38,7 @@ let getAllSpecialtyService = () => {
             let data = await db.Specialty.findAll();
             if (data && data.length > 0) {
                 data.map((item) => {
-                    item.image = new Buffer(item.image, "base64").toString(
+                    item.image = Buffer.from(item.image, "base64").toString(
                         "binary"
                     );
                     return item;
@@ -73,20 +73,20 @@ let getDetailSpecialtyByIdService = (inputId, location) => {
                 });
 
                 if (data) {
-                    let doctorSpecialty = []
-                    if(location === 'ALL') {
-                        doctorSpecialty = await db.Doctor_Info.findAll({
+                    let doctorSpecialty = [];
+                    if (location === "ALL") {
+                        doctorSpecialty = await db.Doctor_Infor.findAll({
                             where: {
                                 specialtyId: inputId,
                             },
                             attributes: ["doctorId", "provinceId"],
                         });
-                    }else{
+                    } else {
                         //find doctor by location
-                        doctorSpecialty = await db.Doctor_Info.findAll({
+                        doctorSpecialty = await db.Doctor_Infor.findAll({
                             where: {
                                 specialtyId: inputId,
-                                provinceId: location
+                                provinceId: location,
                             },
                             attributes: ["doctorId", "provinceId"],
                         });
