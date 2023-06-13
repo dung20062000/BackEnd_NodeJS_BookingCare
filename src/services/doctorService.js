@@ -269,7 +269,7 @@ let bulkCreateScheduleService = (data) => {
 
                 //compare difference => ___2___
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
-                    return a.timeType === b.timeType && +a.date === +b.date;
+                    return a.timeType == b.timeType && +a.date == +b.date;
                 });
 
                 //create data => ___3___
