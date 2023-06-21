@@ -3,21 +3,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Markdowns', {
-        // address: DataTypes.STRING,
-        // description: DataTypes.TEXT,
-        // image: DataTypes.STRING,
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-    //   contentHTML: DataTypes.TEXT('long') ,
-    //   contentMarkdown: DataTypes.TEXT('long'),
-    //   description: DataTypes.TEXT,
-    //   doctorId: DataTypes.INTEGER,
-    //   specialtyID: DataTypes.INTEGER,
-    //   clinicId: DataTypes.INTEGER,
 
       contentHTML: {
         allowNull: false,
@@ -35,7 +26,7 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER
       },
-      specialtyID: {
+      specialtyId: {
         allowNull: true,
         type: Sequelize.INTEGER
       },

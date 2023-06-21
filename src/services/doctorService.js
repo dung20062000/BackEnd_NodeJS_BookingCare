@@ -17,7 +17,7 @@ let getTopDoctorHome = (limitInput) => {
                 },
                 include: [
                     {model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi']},
-                    {model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']}
+                    {model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']},
                 ],
                 raw: true,
                 nest: true
