@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Doctor_info', {
+    await queryInterface.createTable('Doctor_Info', {
         // doctorId: DataTypes.INTEGER,
         // priceId: DataTypes.STRING,
         // provinceId: DataTypes.STRING,
@@ -18,45 +18,44 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      doctorId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      specialtyId: {
-        type: Sequelize.INTEGER,
-      },
-      clinicId: {
-        type: Sequelize.INTEGER,
-      },
-      priceId: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      provinceId: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      paymentId: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      addressClinic: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      nameClinic: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },      
-      note: {
-        type: Sequelize.STRING
-      },
-      count: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 0
-      },
-
+            doctorId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+            },
+            specialtyId: {
+                type: Sequelize.INTEGER,
+            },
+            clinicId: {
+                type: Sequelize.INTEGER,
+            },
+            priceId: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            provinceId: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            paymentId: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            addressClinic: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            nameClinic: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            note: {
+                type: Sequelize.STRING,
+            },
+            count: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                defaultValue: 0,
+            },
 
       createdAt: {
         allowNull: false,
@@ -69,6 +68,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Doctor_info');
+    await queryInterface.dropTable('Doctor_Info');
   }
 };
