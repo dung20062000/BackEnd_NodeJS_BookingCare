@@ -6,7 +6,7 @@ module.exports = {
       // type: DataTypes.STRING,
       // value_en: DataTypes.STRING,
       // value_vi: DataTypes.STRING,
-    await queryInterface.createTable('Allcodes', {
+    await queryInterface.createTable('Allcode', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -37,6 +37,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Allcodes');
+    await queryInterface.dropTable('Allcode');
   }
 };

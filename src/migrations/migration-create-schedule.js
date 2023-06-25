@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Schedules', {
+    await queryInterface.createTable('Schedule', {
         // currentNumber: DataTypes.INTEGER,
         // maxNunber: DataTypes.INTEGER,
         // date: DataTypes.DATE,
@@ -41,6 +41,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Schedules');
+    await queryInterface.dropTable('Schedule');
   }
 };

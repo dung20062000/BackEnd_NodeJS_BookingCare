@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bookings', {
+    await queryInterface.createTable('Booking', {
         // statusId: DataTypes.STRING, //là kiểu dữ liệu của key trong bảng allcode
         // doctorId: DataTypes.INTEGER, //là kiểu dữ liệu của id trong bảng user(doctors)
         // patientId: DataTypes.INTEGER, //là kiểu dữ liệu của id trong bảng user(patient)
@@ -44,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Bookings');
+    await queryInterface.dropTable('Booking');
   }
 };

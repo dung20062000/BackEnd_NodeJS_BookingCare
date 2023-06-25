@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Clinics', {
+    await queryInterface.createTable('Clinic', {
         // address: DataTypes.STRING,
         // description: DataTypes.TEXT,
         // image: DataTypes.STRING,
@@ -40,6 +40,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Clinics');
+    await queryInterface.dropTable('Clinic');
   }
 };
